@@ -1,17 +1,30 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import Counter from './Counter';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+const initialStates = { count: 40, title: "Danki Code" };
+
+function reducer(state = initialStates, action) {
+switch (action.type) {
+case "INCREMENT":
+return { ...state, count: state.count + 1 };
+default:
+return state;
+}
+}
+
+const store = createStore(reducer);
+
+const App = () => (
+<Provider store={store}>
+<Counter />
+</Provider>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+ReactDOM.render(<App />, document.getElementById('root'));
+
 reportWebVitals();
